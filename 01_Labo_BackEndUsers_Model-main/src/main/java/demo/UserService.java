@@ -1,20 +1,16 @@
 package demo;
 
-
 import java.util.List;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
-    public UserService() {
-        
-    }
+    public UserService() { }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -23,7 +19,7 @@ public class UserService {
     public List<User> getUsersWithAgeOlderThan(int age) throws ServiceException{
         List<User> users = userRepository.findUsersByAgeAfter(age);
         if (users.isEmpty()) {
-        throw new ServiceException("users", "no users with age " + age + " found");
+            throw new ServiceException("users", "no users with age " + age + " found");
         }
         return users;
     }
@@ -42,7 +38,7 @@ public class UserService {
         return userRepository.findUserByName(name);
     }
 
-    public User addUser(User user) throws ServiceException{
+    public User addUser(User user) throws ServiceException {
         if (getUserWithEmail(user.getEmail()) != null)
             throw new ServiceException("email", "email already taken");
         userRepository.save(user);
@@ -58,14 +54,15 @@ public class UserService {
     }
 
     public User removeUser(String email) throws ServiceException{
-        User userToDelete = userRepository.findUserByEmail(email);
-        if (userToDelete != null) {
-            userRepository.delete(userToDelete);
-            return userToDelete;
+        User user = userRepository.findUserByEmail(email);
+        if (user != null) {
+            userRepository.delete(user);
+            return user;
         } else {
             throw new ServiceException("user", "user with this email does not exist");
         }
     }
+    
     public List<User> getUsersByMembershipYear(int year) {
         return userRepository.findAllByMembershipYearsContaining(year);
     }

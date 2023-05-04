@@ -1,6 +1,7 @@
 package demo;
 
 public class ServiceException extends Exception{
+    
     private String field;
 
     public ServiceException(String field, String message) {
